@@ -53,5 +53,12 @@
   "lumalight.config.option.items.rarity": "Обводка редкости предметов",
   "lumalight.config.option.entities.damage": "Вспышка обводки при уроне",
   "lumalight.config.option.exposure.highlights": "Защита светлых областей",
-  "lumalight.config.option.cartoon.dither": "Плавные градиенты постеризации"
+  "lumalight.config.option.cartoon.dither": "Плавные градиенты постеризации",
+  "lumalight.config.option.world.ores": "Обводка видимой руды",
+  "lumalight.config.option.world.ore_thickness": "Толщина сплошной обводки",
+  "lumalight.config.option.world.ore_opacity": "Прозрачность обводки руды",
+  "lumalight.config.option.world.ore_brightness": "Яркость обводки руды",
+  "lumalight.config.option.world.ore_distance": "Дальность обводки руды",
+  "lumalight.config.option.world.ore_limit": "Максимум обводимой руды",
+  "lumalight.config.option.world.ore_pulse": "Пульсация обводки руды"
 }

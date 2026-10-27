@@ -39,8 +39,16 @@ public final class ClientHooks {
 
     public static void register() {
         LumaLightKeyBindings.register();
-        ResourceLoader.get((PackType)PackType.CLIENT_RESOURCES).registerReloadListener(Identifier.fromNamespaceAndPath((String)"lumalight", (String)"texture_color_cache"), (PreparableReloadListener)((ResourceManagerReloadListener)resourceManager -> ItemOutlineColor.clearCache()));
-        ClientTickEvents.END_CLIENT_TICK.register(LumaLightKeyBindings::tick);
+        ResourceLoader.get((PackType)PackType.CLIENT_RESOURCES).registerReloadListener(Identifier.fromNamespaceAndPath((String)"lumalight", (String)"texture_color_cache"), (PreparableReloadListener)((ResourceManagerReloadListener)resourceManager -> {
+            ItemOutlineColor.clearCache();
+            BlockTextureLightColor.clearCache();
+            OreOutlineRenderer.clear();
+        }));
+        ClientTickEvents.END_CLIENT_TICK.register(minecraft -> {
+            LumaLightKeyBindings.tick(minecraft);
+            OreOutlineRenderer.tick(minecraft);
+        });
+        LevelRenderEvents.COLLECT_SUBMITS.register(OreOutlineRenderer::collectSubmits);
         LevelRenderEvents.END_MAIN.register(context -> {
             pendingPostContext = context;
             RimLightRenderer.render(context);
@@ -49,6 +57,7 @@ public final class ClientHooks {
             pendingPostContext = null;
             CartoonPostRenderer.resetWorldState();
             OutlineVisibility.clear();
+            OreOutlineRenderer.clear();
         });
         ClientLifecycleEvents.CLIENT_STOPPING.register(minecraft -> {
             pendingPostContext = null;

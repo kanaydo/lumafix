@@ -20,6 +20,35 @@ layout(location = 0) out vec4 fragColor;
 float saturate(float value) { return clamp(value, 0.0, 1.0); }
 
 // True for vanilla sky and cloud pixels (always left untouched).
+// Camera-relative position of a pixel (needs the SkyMask matrices, i.e. the world pass).
+vec3 relativePosition(vec2 uv, float depth) {
+    float clipDepth = SkyMask.w > 0.5 ? depth : depth * 2.0 - 1.0;
+    vec4 view = SkyInverseProjection * vec4(uv * 2.0 - 1.0, clipDepth, 1.0);
+    view.xyz /= abs(view.w) < 1.0e-6 ? 1.0e-6 : view.w;
+    return (SkyInverseViewRotation * vec4(view.xyz, 0.0)).xyz;
+}
+
+// How much the surface at this pixel faces up (|normal.y|). Each axis uses the neighbour whose
+// depth is closer to the centre, so the normal is not taken across the silhouette being outlined.
+float upwardFacing(vec2 uv, float depth, vec2 texel) {
+    vec2 dx = vec2(texel.x, 0.0);
+    vec2 dy = vec2(0.0, texel.y);
+    float left = texture(DepthSampler, uv - dx).r;
+    float right = texture(DepthSampler, uv + dx).r;
+    float down = texture(DepthSampler, uv - dy).r;
+    float up = texture(DepthSampler, uv + dy).r;
+    vec3 centre = relativePosition(uv, depth);
+    vec3 alongX = abs(right - depth) < abs(depth - left)
+            ? relativePosition(uv + dx, right) - centre
+            : centre - relativePosition(uv - dx, left);
+    vec3 alongY = abs(up - depth) < abs(depth - down)
+            ? relativePosition(uv + dy, up) - centre
+            : centre - relativePosition(uv - dy, down);
+    vec3 normal = cross(alongX, alongY);
+    float normalLength = length(normal);
+    return normalLength > 1.0e-8 ? abs(normal.y) / normalLength : 0.0;
+}
+
 bool isVanillaSkyOrCloud(vec2 uv, float depth) {
     if (SkyMask.x < 0.5) return false;
     if (depth <= 0.000001) return true;
@@ -110,8 +139,20 @@ void main() {
     vec3 color = texture(DiffuseSampler, uv).rgb;
     float rimFactor = getRimEdgeMask(uv, 1.0 / max(OutputEffect.xy, vec2(1.0)));
     // Skip green foliage (grass, plants, leaves) unless "Outline green foliage" is on.
+    // Ratios rather than absolute differences, so dark night-time foliage (dim and blue-tinted
+    // by the night lightmap) still counts: green must clearly beat red, and must not be far
+    // below blue (which rejects water and other genuinely blue surfaces).
     if (Reserved.y > 0.5) {
-        rimFactor *= 1.0 - smoothstep(0.035, 0.25, color.g - max(color.r, color.b));
+        float greenOverRed = color.g / max(color.r, 1.0e-4);
+        float greenOverBlue = color.g / max(color.b, 1.0e-4);
+        float foliage = smoothstep(1.08, 1.22, greenOverRed) * smoothstep(0.70, 0.88, greenOverBlue);
+        // Grass block tops and other upward-facing green ground keep their outline; plants are
+        // upright crossed quads and are still skipped. Only in the world pass (SkyMask set).
+        if (foliage > 0.0 && SkyMask.x > 0.5) {
+            float centreDepth = texture(DepthSampler, uv).r;
+            foliage *= 1.0 - smoothstep(0.70, 0.90, upwardFacing(uv, centreDepth, 1.0 / max(OutputEffect.xy, vec2(1.0))));
+        }
+        rimFactor *= 1.0 - foliage;
     }
     if (rimFactor <= 0.0) { fragColor = vec4(max(color, vec3(0.0)), 1.0); return; }
     vec3 sceneTint = normalize(max(sqrt(max(color, vec3(0.0))), vec3(1.0e-5)));

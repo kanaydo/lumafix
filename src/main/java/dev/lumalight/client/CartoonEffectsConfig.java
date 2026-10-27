@@ -33,6 +33,14 @@ public final class CartoonEffectsConfig {
     public static final ConfigValue<Double> COMFORT_BLACK_PROTECTION = FILE.decimal("cartoon.comfort.blackProtection", 0.22, 0.0, 0.6);
     public static final ConfigValue<Double> COMFORT_LOW_CONTRAST = FILE.decimal("cartoon.comfort.lowContrast", 0.18, 0.0, 0.7);
     public static final ConfigValue<Boolean> COMFORT_MOTION_REDUCTION = FILE.bool("cartoon.comfort.motionReduction", true);
+    // Outlines on exposed ore blocks (same keys and defaults as the original LumaLight).
+    public static final ConfigValue<Boolean> ORE_OUTLINES = FILE.bool("world.oreOutlines", true);
+    public static final ConfigValue<Double> ORE_OUTLINE_THICKNESS = FILE.decimal("world.oreOutline.lineWidthPixels", 4.0, 1.0, 10.0);
+    public static final ConfigValue<Double> ORE_OUTLINE_OPACITY = FILE.decimal("world.oreOutline.opacity", 0.92, 0.1, 1.0);
+    public static final ConfigValue<Double> ORE_OUTLINE_BRIGHTNESS = FILE.decimal("world.oreOutline.brightness", 0.42, 0.0, 1.0);
+    public static final ConfigValue<Integer> ORE_OUTLINE_DISTANCE = FILE.integer("world.oreOutline.distance", 14, 4, 24);
+    public static final ConfigValue<Integer> ORE_OUTLINE_MAX_COUNT = FILE.integer("world.oreOutline.maxCount", 192, 32, 512);
+    public static final ConfigValue<Double> ORE_OUTLINE_PULSE = FILE.decimal("world.oreOutline.pulse", 0.16, 0.0, 0.5);
     public static final ConfigValue<Boolean> RARITY_OUTLINES = FILE.bool("items.rarityOutlines", true);
     public static final ConfigValue<Boolean> DAMAGE_FLASH = FILE.bool("entities.damageOutlineFlash", true);
 
