@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "lumalight",
+  "version": "${version}",
+  "name": "LumaLight",
+  "description": "Client-side cartoon color styling and outlines without shader packs.",
+  "authors": ["fdderng"],
+  "license": "MIT",
+  "icon": "assets/lumalight/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "dev.lumalight.LumaLight"
+    ],
+    "modmenu": [
+      "dev.lumalight.compat.ModMenuIntegration"
+    ]
+  },
+  "mixins": [
+    "lumalight.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.19.5",
+    "minecraft": "~26.3",
+    "java": ">=25",
+    "fabric-api": "*"
+  },
+  "suggests": {
+    "modmenu": "*"
+  }
+}

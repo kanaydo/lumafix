@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "package": "dev.lumalight.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "client": [
+    "BakedQuadMaterialInfoMixin",
+    "FeatureRenderDispatcherPreparedFrameMixin",
+    "GameRendererMixin",
+    "ItemEntityRendererMixin",
+    "LivingEntityRendererMixin",
+    "PreparedRenderTypeMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

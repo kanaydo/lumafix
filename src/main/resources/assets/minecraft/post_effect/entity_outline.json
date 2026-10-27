@@ -1,0 +1,68 @@
+{
+  "targets": {
+    "outer_h": {},
+    "outer_mask": {},
+    "inner_h": {},
+    "inner_mask": {}
+  },
+  "passes": [
+    {
+      "vertex_shader": "minecraft:core/screenquad",
+      "fragment_shader": "lumalight:post/item_outline_dilate",
+      "inputs": [{ "sampler_name": "In", "target": "minecraft:entity_outline" }],
+      "output": "outer_h",
+      "uniforms": {
+        "DilationConfig": [
+          { "name": "Direction", "type": "vec2", "value": [1.0, 0.0] },
+          { "name": "Radius", "type": "float", "value": 9.0 }
+        ]
+      }
+    },
+    {
+      "vertex_shader": "minecraft:core/screenquad",
+      "fragment_shader": "lumalight:post/item_outline_dilate",
+      "inputs": [{ "sampler_name": "In", "target": "outer_h" }],
+      "output": "outer_mask",
+      "uniforms": {
+        "DilationConfig": [
+          { "name": "Direction", "type": "vec2", "value": [0.0, 1.0] },
+          { "name": "Radius", "type": "float", "value": 9.0 }
+        ]
+      }
+    },
+    {
+      "vertex_shader": "minecraft:core/screenquad",
+      "fragment_shader": "lumalight:post/item_outline_dilate",
+      "inputs": [{ "sampler_name": "In", "target": "minecraft:entity_outline" }],
+      "output": "inner_h",
+      "uniforms": {
+        "DilationConfig": [
+          { "name": "Direction", "type": "vec2", "value": [1.0, 0.0] },
+          { "name": "Radius", "type": "float", "value": 6.0 }
+        ]
+      }
+    },
+    {
+      "vertex_shader": "minecraft:core/screenquad",
+      "fragment_shader": "lumalight:post/item_outline_dilate",
+      "inputs": [{ "sampler_name": "In", "target": "inner_h" }],
+      "output": "inner_mask",
+      "uniforms": {
+        "DilationConfig": [
+          { "name": "Direction", "type": "vec2", "value": [0.0, 1.0] },
+          { "name": "Radius", "type": "float", "value": 6.0 }
+        ]
+      }
+    },
+    {
+      "vertex_shader": "minecraft:core/screenquad",
+      "fragment_shader": "lumalight:post/item_outline_composite",
+      "inputs": [
+        { "sampler_name": "Original", "target": "minecraft:entity_outline" },
+        { "sampler_name": "Inner", "target": "inner_mask" },
+        { "sampler_name": "Outer", "target": "outer_mask" }
+      ],
+      "output": "minecraft:entity_outline"
+    }
+  ]
+}
