@@ -275,6 +275,13 @@ extends Screen {
         this.bool(Category.OUTLINES, "items.rarity", CartoonEffectsConfig.RARITY_OUTLINES);
         this.bool(Category.OUTLINES, "entities.damage", CartoonEffectsConfig.DAMAGE_FLASH);
         this.bool(Category.OUTLINES, "block_shading", RimLightConfig.BLOCK_SHADING_ENABLED);
+        this.bool(Category.OUTLINES, "world.ores", CartoonEffectsConfig.ORE_OUTLINES);
+        this.number(Category.OUTLINES, "world.ore_thickness", CartoonEffectsConfig.ORE_OUTLINE_THICKNESS, 1.0, 10.0, 1);
+        this.number(Category.OUTLINES, "world.ore_opacity", CartoonEffectsConfig.ORE_OUTLINE_OPACITY, 0.1, 1.0, 2);
+        this.number(Category.OUTLINES, "world.ore_brightness", CartoonEffectsConfig.ORE_OUTLINE_BRIGHTNESS, 0.0, 1.0, 2);
+        this.integer(Category.OUTLINES, "world.ore_distance", CartoonEffectsConfig.ORE_OUTLINE_DISTANCE, 4, 24);
+        this.integer(Category.OUTLINES, "world.ore_limit", CartoonEffectsConfig.ORE_OUTLINE_MAX_COUNT, 32, 512);
+        this.number(Category.OUTLINES, "world.ore_pulse", CartoonEffectsConfig.ORE_OUTLINE_PULSE, 0.0, 0.5, 2);
         this.bool(Category.CARTOON, "cartoon.posterization", CartoonEffectsConfig.POSTERIZATION);
         this.integer(Category.CARTOON, "cartoon.levels", CartoonEffectsConfig.POSTERIZATION_LEVELS, 3, 24);
         this.number(Category.CARTOON, "cartoon.poster_strength", CartoonEffectsConfig.POSTERIZATION_STRENGTH, 0.0, 1.0, 2);
@@ -335,6 +342,10 @@ extends Screen {
             CartoonEffectsConfig.NIGHT_EMISSIVE.set(false);
             CartoonEffectsConfig.GLOBAL_SATURATION.set(1.08);
             CartoonEffectsConfig.GLOBAL_VIBRANCE.set(0.1);
+            CartoonEffectsConfig.ORE_OUTLINE_THICKNESS.set(3.0);
+            CartoonEffectsConfig.ORE_OUTLINE_DISTANCE.set(10);
+            CartoonEffectsConfig.ORE_OUTLINE_MAX_COUNT.set(96);
+            CartoonEffectsConfig.ORE_OUTLINE_PULSE.set(0.08);
         } else if (preset == Preset.VIVID) {
             RimLightConfig.THICKNESS.set(4.0);
             RimLightConfig.STRENGTH.set(0.82);
@@ -347,6 +358,12 @@ extends Screen {
             CartoonEffectsConfig.COLOR_TEMPERATURE.set(0.08);
             CartoonEffectsConfig.SCENE_BRIGHTNESS.set(1.03);
             CartoonEffectsConfig.SHADOW_LIFT.set(0.035);
+            CartoonEffectsConfig.ORE_OUTLINE_THICKNESS.set(5.0);
+            CartoonEffectsConfig.ORE_OUTLINE_OPACITY.set(1.0);
+            CartoonEffectsConfig.ORE_OUTLINE_BRIGHTNESS.set(0.58);
+            CartoonEffectsConfig.ORE_OUTLINE_DISTANCE.set(18);
+            CartoonEffectsConfig.ORE_OUTLINE_MAX_COUNT.set(288);
+            CartoonEffectsConfig.ORE_OUTLINE_PULSE.set(0.24);
         }
         this.activePreset = preset;
         CartoonEffectsConfig.ACTIVE_PROFILE.set(this.activePreset.ordinal());

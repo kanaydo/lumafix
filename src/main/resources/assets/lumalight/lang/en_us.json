@@ -58,5 +58,12 @@
   "lumalight.config.option.comfort.white": "Protect bright whites",
   "lumalight.config.option.comfort.black": "Protect black detail",
   "lumalight.config.option.comfort.low_contrast": "Soft contrast",
-  "lumalight.config.option.comfort.motion": "Reduce decoration while turning"
+  "lumalight.config.option.comfort.motion": "Reduce decoration while turning",
+  "lumalight.config.option.world.ores": "Visible ore outlines",
+  "lumalight.config.option.world.ore_thickness": "Ore outline thickness",
+  "lumalight.config.option.world.ore_opacity": "Ore outline opacity",
+  "lumalight.config.option.world.ore_brightness": "Ore outline brightness",
+  "lumalight.config.option.world.ore_distance": "Ore outline distance",
+  "lumalight.config.option.world.ore_limit": "Maximum outlined ores",
+  "lumalight.config.option.world.ore_pulse": "Ore outline pulse"
 }
